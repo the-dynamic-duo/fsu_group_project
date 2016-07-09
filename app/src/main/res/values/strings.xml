@@ -1,0 +1,40 @@
+<resources>
+    <!-- Title Screen Strings-->
+    <string name="app_name">You Don\'t Nole Jack</string>
+    <string name="developers">Created By: Adam Taylor and Timothy Ingle</string>
+    <string name="single">Single Player</string>
+    <string name="multi">Multi-player</string>
+    <string name="how_to">How To Play</string>
+
+    <!-- Category Select Screen Strings-->
+    <string name="category_menu">Choose Your Category</string>
+    <string name="category_academics">Academics and Programs</string>
+    <string name="category_history">History and Location</string>
+    <string name="category_random">Random Category</string>
+    <string name="category_sports">Sports and Athletics</string>
+    <string name="category_student">Student Life</string>
+
+    <!-- Generic Player Number Strings-->
+    <string name="player_one">Player 1</string>
+    <string name="player_two">Player 2</string>
+    <string name="player_three">Player 3</string>
+    <string name="player_four">Player 4</string>
+
+    <!-- Game Round Strings-->
+    <string name="category_header"> Category: </string>
+    <string name="question_number_header">Question </string>
+    <string name="choice_a">A. </string>
+    <string name="choice_b">B. </string>
+    <string name="choice_c">C. </string>
+    <string name="choice_d">D. </string>
+    <string name="player_score">Current Score: </string>
+
+    <!-- Final Results Screen Strings-->
+    <string name="thank_you">Thanks For Playing</string>
+    <string name="final_score_single">Final Score</string>
+    <string name="final_score_multi">Final Scores</string>
+    <string name="play_again">Play Again?</string>
+    <string name="main_menu">Main Menu</string>
+
+
+</resources>
