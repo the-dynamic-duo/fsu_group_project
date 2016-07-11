@@ -6,6 +6,9 @@
     <string name="multi">Multi-player</string>
     <string name="how_to">How To Play</string>
 
+    <!-- How to play Alert Dialog Strings-->
+    <string name="how_to_body">Gameplay Instructions Will Go Here!</string>
+
     <!-- Category Select Screen Strings-->
     <string name="category_menu">Choose Your Category</string>
     <string name="category_academics">Academics and Programs</string>

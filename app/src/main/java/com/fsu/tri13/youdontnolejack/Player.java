@@ -5,4 +5,5 @@ package com.fsu.tri13.youdontnolejack;
  */
 public class Player {
 //test
+    Player() {}
 }

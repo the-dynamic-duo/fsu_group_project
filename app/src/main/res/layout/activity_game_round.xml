@@ -39,25 +39,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:text="@string/choice_a"/>
+        android:text="@string/choice_a"
+        android:id="@+id/button_choice_a"
+        />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:text="@string/choice_b"/>
+        android:text="@string/choice_b"
+        android:id="@+id/button_choice_b"
+        />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:text="@string/choice_c"/>
+        android:text="@string/choice_c"
+        android:id="@+id/button_choice_c"
+        />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:text="@string/choice_d"/>
+        android:text="@string/choice_d"
+        android:id="@+id/button_choice_d"
+        />
 
     <TextView
         android:layout_width="wrap_content"

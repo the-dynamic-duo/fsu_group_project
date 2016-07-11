@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/single"
+        android:id="@+id/button_single_player"
         />
 
     <Button
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/multi"
+        android:id="@+id/button_multi_player"
         />
 
     <Button
@@ -35,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/how_to"
+        android:id="@+id/button_how_to_play"
         />
 
     <TextView
