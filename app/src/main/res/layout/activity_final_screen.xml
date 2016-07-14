@@ -9,10 +9,132 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.fsu.tri13.youdontnolejack.FinalScreenActivity">
-	
+
 	<TextView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		/>
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:text="@string/final_score_single" />
+	<!-- For conceptual purposes only. Actual view will be set dynamically-->
+
+	<LinearLayout
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+	android:layout_gravity="center_horizontal"
+	>
+	<!-- Format - Player: Score -->
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="left"
+		android:layout_marginRight="@dimen/activity_horizontal_margin"
+		android:id="@+id/fs_player1"
+		android:text="@string/player_one" />
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="right"
+		android:id="@+id/fs_score1"
+		android:text="Score 1" />
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_gravity="center_horizontal"
+		>
+		<!-- Format - Player: Score -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="left"
+			android:layout_marginRight="@dimen/activity_horizontal_margin"
+			android:id="@+id/fs_player2"
+			android:text="@string/player_two" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="right"
+			android:id="@+id/fs_score2"
+			android:text="Score 1" />
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_gravity="center_horizontal"
+		>
+		<!-- Format - Player: Score -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="left"
+			android:layout_marginRight="@dimen/activity_horizontal_margin"
+			android:id="@+id/fs_player3"
+			android:text="@string/player_three" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="right"
+			android:id="@+id/fs_score3"
+			android:text="Score 1" />
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_gravity="center_horizontal"
+		>
+		<!-- Format - Player: Score -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="left"
+			android:layout_marginRight="@dimen/activity_horizontal_margin"
+			android:id="@+id/fs_player4"
+			android:text="@string/player_four" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="right"
+			android:id="@+id/fs_score4"
+			android:text="Score 1" />
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_gravity="center_horizontal"
+		>
+		<!-- Format - Player: Score -->
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="left"
+			android:layout_marginRight="@dimen/activity_horizontal_margin"
+			android:id="@+id/button_main_menu"
+			android:text="@string/main_menu" />
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="right"
+			android:id="@+id/button_player_again"
+			android:text="@string/play_again" />
+
+	</LinearLayout>
 
 </LinearLayout>

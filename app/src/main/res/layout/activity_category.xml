@@ -27,6 +27,7 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/category_academics"
             android:id="@+id/rb_academics"
+            android:enabled="false"
         />
 
         <RadioButton
@@ -35,6 +36,7 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/category_history"
             android:id="@+id/rb_history"
+            android:enabled="false"
         />
 
         <RadioButton
@@ -43,6 +45,7 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/category_sports"
             android:id="@+id/rb_sports"
+            android:enabled="false"
         />
 
         <RadioButton
@@ -51,6 +54,7 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/category_student"
             android:id="@+id/rb_student"
+            android:enabled="false"
         />
 
     <!-- Optional, may not be implemented -->
