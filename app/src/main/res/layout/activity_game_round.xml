@@ -14,24 +14,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:id="@+id/text_category"
         android:text="@string/category_header"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:id="@+id/text_question_number"
         android:text="@string/question_number_header"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:id="@+id/text_player_number"
         android:text="@string/player_one"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:id="@+id/text_question_text"
         android:text="Question Text Goes Here"/>
 
     <!-- Need to generate answers dynamically-->
@@ -71,6 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:id="@+id/text_player_score"
         android:text="@string/player_score"/>
 
 </LinearLayout>

@@ -7,7 +7,14 @@
     <string name="how_to">How To Play</string>
 
     <!-- How to play Alert Dialog Strings-->
-    <string name="how_to_body">Gameplay Instructions Will Go Here!</string>
+    <string name="how_to_body">
+        Players will take turns answering FSU based trivia questions.
+        For each correct answer a player will be awarded points.
+        There are twenty questions from four different categories.
+        The game ends once all questions have been answered and the
+        the player with the highest score wins.
+    </string>
+    <string name="how_to_button">Got It.</string>
 
     <!-- Category Select Screen Strings-->
     <string name="category_menu">Choose Your Category</string>
@@ -38,6 +45,9 @@
     <string name="final_score_multi">Final Scores</string>
     <string name="play_again">Play Again?</string>
     <string name="main_menu">Main Menu</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

@@ -22,6 +22,7 @@
 	android:layout_height="wrap_content"
 	android:orientation="horizontal"
 	android:layout_gravity="center_horizontal"
+	android:id="@+id/fs_LL1"
 	>
 	<!-- Format - Player: Score -->
 	<TextView
@@ -46,6 +47,8 @@
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
 		android:layout_gravity="center_horizontal"
+		android:id="@+id/fs_LL2"
+        android:visibility="gone"
 		>
 		<!-- Format - Player: Score -->
 		<TextView
@@ -70,6 +73,8 @@
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
 		android:layout_gravity="center_horizontal"
+		android:id="@+id/fs_LL3"
+        android:visibility="gone"
 		>
 		<!-- Format - Player: Score -->
 		<TextView
@@ -94,6 +99,8 @@
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
 		android:layout_gravity="center_horizontal"
+		android:id="@+id/fs_LL4"
+        android:visibility="gone"
 		>
 		<!-- Format - Player: Score -->
 		<TextView

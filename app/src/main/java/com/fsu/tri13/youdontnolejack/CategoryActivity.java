@@ -26,8 +26,6 @@ public class CategoryActivity extends AppCompatActivity {
     //for return value
     Intent intent;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,34 +78,48 @@ public class CategoryActivity extends AppCompatActivity {
                 if (academic.isChecked()) {
                     intent.putExtra("categoryChoice",
                             getResources().getString(R.string.category_academics));
-                    //academic.setEnabled(false);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
                 else if (history.isChecked()) {
                     intent.putExtra("categoryChoice",
                             getResources().getString(R.string.category_history));
-                    //history.setEnabled(false);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
                 else if (sport.isChecked()) {
                     intent.putExtra("categoryChoice",
                             getResources().getString(R.string.category_sports));
-                    //sport.setEnabled(false);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
                 else if (student.isChecked()) {
                     intent.putExtra("categoryChoice",
                             getResources().getString(R.string.category_student));
-                    //student.setEnabled(false);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
                 else if (random.isChecked()) {
-                    int r = rand.nextInt(categoryList.size() + 1);
+                    int r = rand.nextInt(categoryList.size());
 
                     intent.putExtra("categoryChoice", categoryList.get(r));
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
-                setResult(RESULT_OK, intent);
-                finish();
+                else ;
+
             }
         });
-
-
-
     }
+
+    //TODO: Still an issue with the Player Class and checking the name.
+    @Override
+    public void onBackPressed() {
+
+        //if back pressed
+        intent.putExtra("categoryChoice", "none - back pressed");
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
+    }
+
 }

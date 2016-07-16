@@ -1,6 +1,7 @@
 package com.fsu.tri13.youdontnolejack;
 
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -67,6 +68,8 @@ public class TitleScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Alert Dialog will go here
+                DialogFragment newFragment = new HowToPlayFragment();
+                newFragment.show(getSupportFragmentManager(), "howtoplay");
             }
         });
     }
