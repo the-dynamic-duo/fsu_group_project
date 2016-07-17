@@ -31,12 +31,6 @@ public class Player
     {
         ++numPlayers;
 
-        if ( BuildConfig.DEBUG && searchPlayerMapForName(inputName) )
-        {
-            throw new AssertionError( "Ensure an existing name isn't passed in to the function by "
-                                    + "checking if the name exists using searchPlayerMapForName()");
-        }
-
         playerName = inputName;
         initializePlayer();
     }
@@ -44,13 +38,10 @@ public class Player
     /* TODO: We need some sort of destructor for the class to decrement numPlayers and remove extra
              entries in playerMap. For now we can call close() if a certain player is not continuing
              with the game. It's too bad Java doesn't have an actual destructor... */
-    public void close()
+    public void remove()
     {
         --numPlayers;
-        for (int i = numPlayers; i < playerMap.size(); ++i)
-        {
-            playerMap.remove(i-1);
-        }
+        playerMap.remove(playerID);
     }
 
     private void initializePlayer()

@@ -90,6 +90,9 @@ public class FinalScreenActivity extends AppCompatActivity {
 
                 new_game.putExtra("finalScreenSelection", "menu");
                 setResult(RESULT_OK,new_game);
+
+                for (int i = 0; i < numOfPlayers; ++i)
+
                 finish();
             }
         });

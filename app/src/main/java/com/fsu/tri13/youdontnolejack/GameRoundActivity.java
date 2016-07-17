@@ -1,11 +1,15 @@
 package com.fsu.tri13.youdontnolejack;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,6 +34,7 @@ public class GameRoundActivity extends AppCompatActivity {
     //stores the available categories
     ArrayList<String> categories;
 
+    private String name = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,38 +61,96 @@ public class GameRoundActivity extends AppCompatActivity {
         //determines number of players set in title activity
         numOfPlayers = getIntent().getIntExtra(EXTRA_PLAYERS, 1);
 
-        player1 = new Player("Player 1");
-
-        //for multi-player mode
-        if (numOfPlayers > 1) {
+       // TODO: These aren't executed in order when I test. wtf java?
             setPlayers();
-        }
 
-        //initializes category list
-        setCategories();
-        //sets listeners for answer buttons
-        setListeners();
-        //starts first round by selecting first category
-        nextCategory();
+            //initializes category list
+            setCategories();
+            //sets listeners for answer buttons
+            setListeners();
+            //starts first round by selecting first category
+            nextCategory();
+
     }
 
-    private void setPlayers() {
-        switch (numOfPlayers) {
-            case 2:
-                player2 = new Player("Player 2");
-                break;
-            case 3:
-                player2 = new Player("Player 2");
-                player3 = new Player("Player 3");
-                break;
+    private void setPlayers()
+    {
+        String names[] = new String[4];
+        for (int i = 0; i < numOfPlayers; ++i)
+        {
+            names[i] = promptForName(i);
+        }
+
+        switch (numOfPlayers)
+        {
             case 4:
-                player2 = new Player("Player 2");
-                player3 = new Player("Player 3");
-                player4 = new Player("Player 4");
+                player4 = new Player(names[3]);
+                //Fall through
+            case 3:
+                player3 = new Player(names[2]);
+                //Fall through
+            case 2:
+                player2 = new Player(names[1]);
+                //Fall through
+            case 1:
+                player1 = new Player(names[0]);
                 break;
             default:
                 break;
         }
+    }
+
+    private String promptForName(int currentPlayer)
+    {
+        ++currentPlayer; // account for zero-based integer
+        String player = "Player " + currentPlayer;
+        boolean reprompt = false;
+
+        do
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            if (!reprompt)
+                builder.setTitle("Please enter a name for " + player + ".");
+            else
+                builder.setTitle("The name you entered is already taken. Choose another name.");
+
+            reprompt = true;
+
+            // Set up the input
+            final EditText input = new EditText(this);
+            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+            input.setText(player);
+            builder.setView(input);
+
+            // Set up the buttons
+            builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    name = input.getText().toString();
+                    if (player1.searchPlayerMapForName(name))
+                    {
+                        name = "";
+                    }
+                }
+            });
+
+            builder.setNegativeButton("Return to Menu", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    finish();
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
+        } while (!name.equals(""));
+
+        return name;
     }
 
     private void setCategories() {
@@ -97,7 +160,8 @@ public class GameRoundActivity extends AppCompatActivity {
         categories.add(getResources().getString(R.string.category_student));
     }
 
-    public void setListeners() {
+    public void setListeners()
+    {
         a.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +189,6 @@ public class GameRoundActivity extends AppCompatActivity {
                 finalScore();
             }
         });
-
     }
     public void nextRound(int round) {
         //check for end of game
@@ -174,20 +237,20 @@ public class GameRoundActivity extends AppCompatActivity {
             //Update: and this still doesn't work????
             else if ("menu".equals(newGameOrMenu)) {
                 clearGame();
-                player1.close();
+                player1.remove();
                 if (numOfPlayers > 1) {
                     switch (numOfPlayers) {
                         case 2:
-                            player2.close();
+                            player2.remove();
                             break;
                         case 3:
-                            player2.close();
-                            player3.close();
+                            player2.remove();
+                            player3.remove();
                             break;
                         case 4:
-                            player2.close();
-                            player3.close();
-                            player4.close();
+                            player2.remove();
+                            player3.remove();
+                            player4.remove();
                             break;
                         default:
                             break;
