@@ -1,18 +1,25 @@
 package com.fsu.tri13.youdontnolejack;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 public class GameRoundActivity extends AppCompatActivity {
 
@@ -35,9 +42,11 @@ public class GameRoundActivity extends AppCompatActivity {
     ArrayList<String> categories;
 
     private String name = "";
+    Stack<String> playerNames;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_round);
 
@@ -58,6 +67,7 @@ public class GameRoundActivity extends AppCompatActivity {
 
         currentCategory = "default";
         newGameOrMenu = "menu";
+
         //determines number of players set in title activity
         numOfPlayers = getIntent().getIntExtra(EXTRA_PLAYERS, 1);
 
@@ -75,82 +85,84 @@ public class GameRoundActivity extends AppCompatActivity {
 
     private void setPlayers()
     {
-        String names[] = new String[4];
+        playerNames = new Stack<String>();
+
         for (int i = 0; i < numOfPlayers; ++i)
         {
-            names[i] = promptForName(i);
+            name = "";
+            promptForName(i);
+            playerNames.push(name);
         }
 
         switch (numOfPlayers)
         {
             case 4:
-                player4 = new Player(names[3]);
+                player4 = new Player(playerNames.pop());
                 //Fall through
             case 3:
-                player3 = new Player(names[2]);
+                player3 = new Player(playerNames.pop());
                 //Fall through
             case 2:
-                player2 = new Player(names[1]);
+                player2 = new Player(playerNames.pop());
                 //Fall through
             case 1:
-                player1 = new Player(names[0]);
+                player1 = new Player(playerNames.pop());
                 break;
             default:
                 break;
         }
     }
 
-    private String promptForName(int currentPlayer)
+    private void promptForName(int currentPlayer)
     {
+
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message mesg) {
+                throw new RuntimeException();
+            }
+        };
+
         ++currentPlayer; // account for zero-based integer
         String player = "Player " + currentPlayer;
         boolean reprompt = false;
 
-        do
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        do {
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            input.setText(player);
 
-            if (!reprompt)
-                builder.setTitle("Please enter a name for " + player + ".");
-            else
-                builder.setTitle("The name you entered is already taken. Choose another name.");
+            new AlertDialog.Builder(this)
+                    .setTitle(!reprompt ? ("Please enter a name for " + player + ".") :
+                            ("The name you entered is already taken.\nPlease choose another name."))
+                    .setView(input)
+                    .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            name = input.getText().toString();
+                            if (playerNames.contains(name))
+                            {
+                                name = "";
+                            }
+                            handler.sendMessage(handler.obtainMessage());
+                        }
+                    })
+                    .setNegativeButton("Return to Menu", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            handler.sendMessage(handler.obtainMessage());
+                            finish();
+                            dialog.cancel();
+                        }
+                    })
+                    .create()
+                    .show();
 
             reprompt = true;
 
-            // Set up the input
-            final EditText input = new EditText(this);
-            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-            input.setInputType(InputType.TYPE_CLASS_TEXT);
-
-            input.setText(player);
-            builder.setView(input);
-
-            // Set up the buttons
-            builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
-                    name = input.getText().toString();
-                    if (player1.searchPlayerMapForName(name))
-                    {
-                        name = "";
-                    }
-                }
-            });
-
-            builder.setNegativeButton("Return to Menu", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
-                    finish();
-                    dialog.cancel();
-                }
-            });
-
-            builder.show();
-        } while (!name.equals(""));
-
-        return name;
+            try { Looper.loop(); }
+            catch(RuntimeException e2) {}
+        } while (name.equals(""));
     }
 
     private void setCategories() {
