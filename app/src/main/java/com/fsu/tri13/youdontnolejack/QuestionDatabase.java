@@ -184,5 +184,13 @@ public class QuestionDatabase
         return output;
     }
 
+    //TODO: My attempt to reset USED_COL
 
+    public void reset() {
+        db.execSQL("UPDATE " + TABLE_NAME + " SET " + USED_COL + "=1");
+    }
+
+    public void close() {
+        db.close();
+    }
 }

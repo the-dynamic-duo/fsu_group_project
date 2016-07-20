@@ -25,13 +25,13 @@ public class GameRoundActivity extends AppCompatActivity {
 
     //to set the selected amount of players
     public static final String EXTRA_PLAYERS = "players";
-    //to set the selected category
-    public static final String EXTRA_CURRENT_CATEGORY= "category";
+
+    QuestionDatabase db;
 
     TextView category_text, question_number_text, player_number_text, question_text, score_text;
     Button a,b,c,d;
-    int numOfPlayers;
-    Player player1, player2, player3, player4;
+    int numOfPlayers, playerTurn;
+    Player player1, player2, player3, player4, currentPlayer;
     int questionNum;
     //current or selected category
     String currentCategory;
@@ -50,6 +50,9 @@ public class GameRoundActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_round);
 
+        db = new QuestionDatabase(this);
+        db.reset();
+
         a = (Button) findViewById(R.id.button_choice_a);
         b = (Button) findViewById(R.id.button_choice_b);
         c = (Button) findViewById(R.id.button_choice_c);
@@ -63,15 +66,15 @@ public class GameRoundActivity extends AppCompatActivity {
         score_text = (TextView) findViewById(R.id.text_player_score);
 
         categories = new ArrayList<>();
-        questionNum = 0;
+        questionNum = 1;
 
         currentCategory = "default";
         newGameOrMenu = "menu";
 
         //determines number of players set in title activity
         numOfPlayers = getIntent().getIntExtra(EXTRA_PLAYERS, 1);
+        playerTurn = 1;
 
-       // TODO: These aren't executed in order when I test. wtf java?
             setPlayers();
 
             //initializes category list
@@ -111,6 +114,8 @@ public class GameRoundActivity extends AppCompatActivity {
             default:
                 break;
         }
+        //set first player as current player at start of game
+        currentPlayer = player1;
     }
 
     private void promptForName(int currentPlayer)
@@ -172,43 +177,143 @@ public class GameRoundActivity extends AppCompatActivity {
         categories.add(getResources().getString(R.string.category_student));
     }
 
+    //For safety!
+    public void enableButtons() {
+        a.setClickable(true);
+        b.setClickable(true);
+        c.setClickable(true);
+        d.setClickable(true);
+    }
+
+    public void disableButtons() {
+        a.setClickable(false);
+        b.setClickable(false);
+        c.setClickable(false);
+        d.setClickable(false);
+    }
+
+
     public void setListeners()
     {
         a.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                a.setText(getText(R.string.developers));
+                currentPlayer.setSelection(a);
+                ++playerTurn;
+                checkAnswer();
             }
         });
 
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                b.setText(getText(R.string.developers));
+                currentPlayer.setSelection(b);
+                ++playerTurn;
+                checkAnswer();
             }
         });
 
         c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextCategory();
+                currentPlayer.setSelection(c);
+                ++playerTurn;
+                checkAnswer();
             }
         });
 
         d.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finalScore();
+                currentPlayer.setSelection(d);
+                ++playerTurn;
+                checkAnswer();
             }
         });
     }
-    public void nextRound(int round) {
-        //check for end of game
-        if (questionNum >= 20)
-            finalScore();
-        //proceed with question
 
-        questionNum++;
+    public void nextRound() {
+        enableButtons();
+        playerTurn = 1;
+        currentPlayer = player1;
+
+        //check for end of game
+        if (questionNum > 20) {
+            disableButtons();
+            finalScore();
+        }
+        //check for category switch
+        //TODO: Need to add check for no questions remainin in category...
+        //this doesn't work and is just a temporary place holder
+        if (questionNum % 5 == 0) {
+            disableButtons();
+            nextCategory();
+        }
+
+        //generate question from the DATABASE!!!!!
+        final String[] answers = db.returnByCategory(currentCategory);
+
+        question_text.setText(answers[0]);
+        //display answer buttons
+        // need to randomize, got an idea for a method
+        a.setText(answers[1]);
+        b.setText(answers[2]);
+        c.setText(answers[3]);
+        d.setText(answers[4]);
+
+        //display headers
+        category_text.setText("Category: " + currentCategory);
+        question_number_text.setText("Question Number: " + Integer.toString(questionNum));
+        player_number_text.setText(currentPlayer.getPlayerName() + "'s Turn");
+        score_text.setText("Current Score:" + Integer.toString(currentPlayer.getCurrentScore()));
+
+        Log.d("debug", "control flow should pause here to wait for player input");
+    }
+
+    public void checkAnswer() {
+        //TODO: temporary
+        if (currentPlayer.getSelection() == a)
+            currentPlayer.incrementCurrentScore();
+        nextPlayer();
+    }
+
+    public void nextPlayer() {
+        Log.d("debug", Integer.toString(playerTurn));
+
+        if (numOfPlayers > 1 && playerTurn < 5) {
+            switch (playerTurn) {
+                case 2:
+                    currentPlayer = player2;
+                    break;
+                case 3:
+                    if (numOfPlayers >= 3)
+                        currentPlayer = player3;
+                    else {
+                        questionNum++;
+                        nextRound();
+                    }
+                    break;
+                case 4:
+                    if (numOfPlayers == 4)
+                        currentPlayer = player4;
+                    else {
+                        questionNum++;
+                        nextRound();
+                    }
+                    break;
+                default:
+                    break;
+            }
+            player_number_text.setText(currentPlayer.getPlayerName() + "'s Turn");
+            score_text.setText(Integer.toString(currentPlayer.getCurrentScore()));
+        }
+        else {
+            questionNum++;
+            nextRound();
+        }
+
+        Log.d("debug","once again control flow should pause here");
+
     }
 
     public void nextCategory() {
@@ -225,16 +330,16 @@ public class GameRoundActivity extends AppCompatActivity {
             if (!"none - back pressed".equals(data.getStringExtra("categoryChoice"))) {
                 currentCategory = data.getStringExtra("categoryChoice");
 
-                Log.d("dbug", "Returning from category screen");
-                Log.d("dbug", currentCategory);
-
                 categories.remove(categories.indexOf(currentCategory));
+                nextRound();
 
-                //TODO: database query would go here
-                // we would fill our question vector here
-                // and we would call nextround with a random question here
-            } else //back pressed
+            }
+            //back pressed
+            else {
+                clearGame();
+                db.close();
                 finish();
+            }
         }
 
         else if (requestCode == 99) {
@@ -245,8 +350,6 @@ public class GameRoundActivity extends AppCompatActivity {
                 clearGame();
                 nextCategory();
             }
-            //TODO: This is a temporary solution because JAVA sucks
-            //Update: and this still doesn't work????
             else if ("menu".equals(newGameOrMenu)) {
                 clearGame();
                 player1.remove();
@@ -268,6 +371,7 @@ public class GameRoundActivity extends AppCompatActivity {
                             break;
                     }
                 }
+                db.close();
                 finish();
             }
 
@@ -279,27 +383,35 @@ public class GameRoundActivity extends AppCompatActivity {
 
         //put number of players
         final_score.putExtra(FinalScreenActivity.FINAL_PLAYERS, numOfPlayers);
-        //put scores
-        final_score.putExtra(FinalScreenActivity.P1_SCORE, player1.getCurrentScore());
+        //put scores and names
+        final_score.putExtra(FinalScreenActivity.P1_SCORE,
+                Integer.toString(player1.getCurrentScore()));
+        final_score.putExtra(FinalScreenActivity.P1_NAME, player1.getPlayerName());
         if (numOfPlayers > 1) {
             switch (numOfPlayers) {
                 case 2:
                     final_score.putExtra(FinalScreenActivity.P2_SCORE,
-                            player2.getCurrentScore());
+                            Integer.toString(player2.getCurrentScore()));
+                    final_score.putExtra(FinalScreenActivity.P2_NAME, player2.getPlayerName());
                     break;
                 case 3:
                     final_score.putExtra(FinalScreenActivity.P2_SCORE,
-                            player2.getCurrentScore());
+                            Integer.toString(player2.getCurrentScore()));
+                    final_score.putExtra(FinalScreenActivity.P2_NAME, player2.getPlayerName());
                     final_score.putExtra(FinalScreenActivity.P3_SCORE,
-                            player3.getCurrentScore());
+                            Integer.toString(player3.getCurrentScore()));
+                    final_score.putExtra(FinalScreenActivity.P3_NAME, player3.getPlayerName());
                     break;
                 case 4:
                     final_score.putExtra(FinalScreenActivity.P2_SCORE,
-                            player2.getCurrentScore());
+                            Integer.toString(player2.getCurrentScore()));
+                    final_score.putExtra(FinalScreenActivity.P2_NAME, player2.getPlayerName());
                     final_score.putExtra(FinalScreenActivity.P3_SCORE,
-                            player3.getCurrentScore());
+                            Integer.toString(player3.getCurrentScore()));
+                    final_score.putExtra(FinalScreenActivity.P3_NAME, player3.getPlayerName());
                     final_score.putExtra(FinalScreenActivity.P4_SCORE,
-                            player4.getCurrentScore());
+                            Integer.toString(player4.getCurrentScore()));
+                    final_score.putExtra(FinalScreenActivity.P4_NAME, player4.getPlayerName());
                     break;
                 default:
                     break;
@@ -310,6 +422,7 @@ public class GameRoundActivity extends AppCompatActivity {
     }
 
     public void clearGame() {
+        db.reset();
         questionNum = 0;
         setCategories();
         player1.setCurrentScore(0);

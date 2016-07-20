@@ -16,6 +16,8 @@
 
 package com.fsu.tri13.youdontnolejack;
 
+import android.widget.Button;
+
 import java.util.Map;
 import java.util.LinkedHashMap;
 
@@ -23,6 +25,8 @@ public class Player
 {
     private int currentScore, highScore, gamesPlayed, playerID;
     private String playerName;
+    //TODO: Adam, Need this and new setSelection method to track score...
+    private Button selection;
 
     private static int numPlayers = 0;
     private static Map<Integer,String> playerMap = new LinkedHashMap<Integer, String>();
@@ -59,6 +63,11 @@ public class Player
         highScore = 0;
         gamesPlayed = 0;
     }
+
+    public void setSelection(Button button) {
+        selection = button;
+    }
+    public Button getSelection() {return selection;}
 
     public void incrementCurrentScore() {++currentScore;}
 
