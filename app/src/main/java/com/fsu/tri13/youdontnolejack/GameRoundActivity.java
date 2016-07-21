@@ -237,19 +237,6 @@ public class GameRoundActivity extends AppCompatActivity {
         playerTurn = 1;
         currentPlayer = player1;
 
-        //check for end of game
-        if (questionNum > 20) {
-            disableButtons();
-            finalScore();
-        }
-        //check for category switch
-        //TODO: Need to add check for no questions remainin in category...
-        //this doesn't work and is just a temporary place holder
-        if (questionNum % 5 == 0) {
-            disableButtons();
-            nextCategory();
-        }
-
         //generate question from the DATABASE!!!!!
         final String[] answers = db.returnByCategory(currentCategory);
 
@@ -265,7 +252,7 @@ public class GameRoundActivity extends AppCompatActivity {
         category_text.setText("Category: " + currentCategory);
         question_number_text.setText("Question Number: " + Integer.toString(questionNum));
         player_number_text.setText(currentPlayer.getPlayerName() + "'s Turn");
-        score_text.setText("Current Score:" + Integer.toString(currentPlayer.getCurrentScore()));
+        score_text.setText("Current Score: " + Integer.toString(currentPlayer.getCurrentScore()));
 
         Log.d("debug", "control flow should pause here to wait for player input");
     }
@@ -286,34 +273,46 @@ public class GameRoundActivity extends AppCompatActivity {
                     currentPlayer = player2;
                     break;
                 case 3:
-                    if (numOfPlayers >= 3)
+                    if (numOfPlayers > 2)
                         currentPlayer = player3;
                     else {
                         questionNum++;
-                        nextRound();
+                        //nextRound();
                     }
                     break;
                 case 4:
-                    if (numOfPlayers == 4)
+                    if (numOfPlayers > 3)
                         currentPlayer = player4;
                     else {
                         questionNum++;
-                        nextRound();
+                        //nextRound();
                     }
                     break;
                 default:
                     break;
             }
             player_number_text.setText(currentPlayer.getPlayerName() + "'s Turn");
-            score_text.setText(Integer.toString(currentPlayer.getCurrentScore()));
+            score_text.setText(
+                    "Current Score: " + Integer.toString(currentPlayer.getCurrentScore()));
         }
         else {
-            questionNum++;
-            nextRound();
+            //check for end of game
+            if (questionNum > 20) {
+                disableButtons();
+                finalScore();
+            }
+            else if (questionNum < 20 && questionNum % 5 == 0) {
+                disableButtons();
+                questionNum++;
+                nextCategory();
+            }
+            else {
+                questionNum++;
+                nextRound();
+            }
         }
 
         Log.d("debug","once again control flow should pause here");
-
     }
 
     public void nextCategory() {
@@ -423,7 +422,7 @@ public class GameRoundActivity extends AppCompatActivity {
 
     public void clearGame() {
         db.reset();
-        questionNum = 0;
+        questionNum = 1;
         setCategories();
         player1.setCurrentScore(0);
         if (numOfPlayers > 1) {
