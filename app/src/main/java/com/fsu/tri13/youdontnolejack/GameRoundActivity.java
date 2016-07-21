@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -37,6 +38,8 @@ public class GameRoundActivity extends AppCompatActivity {
     String currentCategory;
     //final screen activity choice
     String newGameOrMenu;
+
+    String answer;
 
     //stores the available categories
     ArrayList<String> categories;
@@ -160,6 +163,7 @@ public class GameRoundActivity extends AppCompatActivity {
                             dialog.cancel();
                         }
                     })
+                    .setCancelable(false)
                     .create()
                     .show();
 
@@ -240,13 +244,24 @@ public class GameRoundActivity extends AppCompatActivity {
         //generate question from the DATABASE!!!!!
         final String[] answers = db.returnByCategory(currentCategory);
 
-        question_text.setText(answers[0]);
+        String question = answers[0];
+        answer = answers[1];
+
+        // Store answer options in a list and shuffle them
+        List<String> randomizedAnswers = new ArrayList<>();
+        randomizedAnswers.add(answers[1]);
+        randomizedAnswers.add(answers[2]);
+        randomizedAnswers.add(answers[3]);
+        randomizedAnswers.add(answers[4]);
+        Collections.shuffle(randomizedAnswers);
+
+        question_text.setText(question);
+
         //display answer buttons
-        // need to randomize, got an idea for a method
-        a.setText(answers[1]);
-        b.setText(answers[2]);
-        c.setText(answers[3]);
-        d.setText(answers[4]);
+        a.setText(randomizedAnswers.get(0));
+        b.setText(randomizedAnswers.get(1));
+        c.setText(randomizedAnswers.get(2));
+        d.setText(randomizedAnswers.get(3));
 
         //display headers
         category_text.setText("Category: " + currentCategory);
@@ -258,8 +273,7 @@ public class GameRoundActivity extends AppCompatActivity {
     }
 
     public void checkAnswer() {
-        //TODO: temporary
-        if (currentPlayer.getSelection() == a)
+        if (currentPlayer.getSelection().getText() == answer)
             currentPlayer.incrementCurrentScore();
         nextPlayer();
     }
@@ -273,20 +287,10 @@ public class GameRoundActivity extends AppCompatActivity {
                     currentPlayer = player2;
                     break;
                 case 3:
-                    if (numOfPlayers > 2)
-                        currentPlayer = player3;
-                    else {
-                        questionNum++;
-                        //nextRound();
-                    }
+                    currentPlayer = player3;
                     break;
                 case 4:
-                    if (numOfPlayers > 3)
-                        currentPlayer = player4;
-                    else {
-                        questionNum++;
-                        //nextRound();
-                    }
+                    currentPlayer = player4;
                     break;
                 default:
                     break;
@@ -296,8 +300,32 @@ public class GameRoundActivity extends AppCompatActivity {
                     "Current Score: " + Integer.toString(currentPlayer.getCurrentScore()));
         }
         else {
+
+            final Handler handler = new Handler() {
+                @Override
+                public void handleMessage(Message mesg) {
+                    throw new RuntimeException();
+                }
+            };
+            new AlertDialog.Builder(this)
+                    .setTitle("Correct Answer")
+                    .setMessage("The correct answer was \"" + answer + "\".")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            handler.sendMessage(handler.obtainMessage());
+                            dialog.cancel();
+                        }
+                    })
+                    .setCancelable(false)
+                    .create()
+                    .show();
+
+            try { Looper.loop(); }
+            catch(RuntimeException e2) {}
+
             //check for end of game
-            if (questionNum > 20) {
+            if (questionNum >= 20) {
                 disableButtons();
                 finalScore();
             }
@@ -336,6 +364,7 @@ public class GameRoundActivity extends AppCompatActivity {
             //back pressed
             else {
                 clearGame();
+                db.reset();
                 db.close();
                 finish();
             }
