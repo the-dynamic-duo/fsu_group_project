@@ -3,4 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="fsuGarnet">#540115</color>
+    <color name="fsuGold">#CDC092</color>
+    <color name="veryBlack">#000000</color>
 </resources>

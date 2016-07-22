@@ -44,6 +44,12 @@ public class TitleScreenActivity extends AppCompatActivity {
         setListeners();
     }
 
+    @Override
+    public void onResume() {
+        spin.setVisibility(View.GONE);
+        super.onResume();
+    }
+
     public void setListeners() {
         sp.setOnClickListener(new View.OnClickListener() {
             @Override

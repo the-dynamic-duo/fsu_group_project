@@ -8,70 +8,110 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/fsuGold"
     tools:context="com.fsu.tri13.youdontnolejack.CategoryActivity">
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/category_menu"/>
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:layout_margin="5dp"
+        android:layout_gravity="center_horizontal|top"
+        android:background="@drawable/banner_categories"/>
 
     <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="60"
+        android:gravity="center"
+        android:layout_margin="5dp"
         android:id="@+id/group1">
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:text="@string/category_academics"
+            android:layout_margin="10dp"
             android:id="@+id/rb_academics"
+            android:textColor="@color/fsuGarnet"
+            android:textSize="15sp"
+            android:buttonTint="@color/fsuGarnet"
             android:enabled="false"
         />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:paddingRight="34sp"
             android:text="@string/category_history"
             android:id="@+id/rb_history"
+            android:textColor="@color/fsuGarnet"
+            android:textSize="15sp"
+            android:buttonTint="@color/fsuGarnet"
             android:enabled="false"
         />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:paddingRight="36sp"
             android:text="@string/category_sports"
             android:id="@+id/rb_sports"
+            android:textColor="@color/fsuGarnet"
+            android:textSize="15sp"
+            android:buttonTint="@color/fsuGarnet"
             android:enabled="false"
         />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:paddingRight="90sp"
             android:text="@string/category_student"
             android:id="@+id/rb_student"
+            android:textColor="@color/fsuGarnet"
+            android:textSize="15sp"
+            android:buttonTint="@color/fsuGarnet"
             android:enabled="false"
         />
 
-    <!-- Optional, may not be implemented -->
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:paddingRight="52sp"
             android:text="@string/category_random"
+            android:textColor="@color/fsuGarnet"
+            android:textSize="15sp"
+            android:buttonTint="@color/fsuGarnet"
             android:id="@+id/rb_random"
         />
     </RadioGroup>
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:layout_margin="5dp"
         android:layout_gravity="center_horizontal"
-        android:text="Begin Round"
+        android:background="@drawable/button_begin_garnet"
         android:id="@+id/button_begin"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:layout_margin="5dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="@drawable/banner_footer_alt"
+        />
 
 </LinearLayout>

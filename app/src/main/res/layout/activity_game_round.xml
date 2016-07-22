@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ndroid="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,74 +9,123 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/fsuGarnet"
     tools:context="com.fsu.tri13.youdontnolejack.GameRoundActivity">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_margin="5dp"
         android:id="@+id/text_category"
+        android:textColor="@color/fsuGold"
+        android:textSize="18sp"
         android:text="@string/category_header"/>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_margin="5dp"
         android:id="@+id/text_question_number"
+        android:textColor="@color/fsuGold"
+        android:textSize="18sp"
         android:text="@string/question_number_header"/>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_margin="5dp"
         android:id="@+id/text_player_number"
+        android:textColor="@color/fsuGold"
+        android:textSize="18sp"
         android:text="@string/player_one"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_margin="5dp"
         android:id="@+id/text_question_text"
+        android:textColor="@color/fsuGold"
+        android:textSize="15dp"
         android:text="Question Text Goes Here"/>
 
-    <!-- Need to generate answers dynamically-->
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="15"
         android:layout_gravity="left"
+        android:layout_margin="5dp"
         android:text="@string/choice_a"
+        android:textColor="@color/fsuGarnet"
+        android:background="@color/fsuGold"
         android:id="@+id/button_choice_a"
         />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="15"
         android:layout_gravity="left"
+        android:layout_margin="5dp"
         android:text="@string/choice_b"
+        android:textColor="@color/fsuGarnet"
+        android:background="@color/fsuGold"
         android:id="@+id/button_choice_b"
         />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="15"
         android:layout_gravity="left"
+        android:layout_margin="5dp"
         android:text="@string/choice_c"
+        android:textColor="@color/fsuGarnet"
+        android:background="@color/fsuGold"
         android:id="@+id/button_choice_c"
         />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="15"
         android:layout_gravity="left"
+        android:textColor="@color/fsuGarnet"
+        android:background="@color/fsuGold"
+        android:layout_margin="5dp"
         android:text="@string/choice_d"
         android:id="@+id/button_choice_d"
         />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_margin="5dp"
         android:id="@+id/text_player_score"
+        android:textColor="@color/fsuGold"
+        android:textSize="18sp"
         android:text="@string/player_score"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_margin="5dp"
+        android:background="@drawable/banner_footer_original"
+        />
 
 </LinearLayout>

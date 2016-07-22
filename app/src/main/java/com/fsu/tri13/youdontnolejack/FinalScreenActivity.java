@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-//TODO: Still having an issue when returning to the main menu at end of game
 
 public class FinalScreenActivity extends AppCompatActivity {
     public static final String FINAL_PLAYERS = "plyrs";
@@ -21,9 +20,12 @@ public class FinalScreenActivity extends AppCompatActivity {
     public static final String P4_SCORE = "score4";
     public static final String P4_NAME = "player4";
 
+    int numOfPlayers, player1_score, player2_score, player3_score, player4_score;
 
+    int[] scores = {0, 0, 0, 0};
+    String[] player_order = {P1_NAME, P2_NAME, P3_NAME, P4_NAME};
 
-    int numOfPlayers;
+    String player1_name, player2_name, player3_name, player4_name;
     Button play_again, main_menu;
 
     LinearLayout linearLayout1, linearLayout2, linearLayout3, linearLayout4;
@@ -42,6 +44,7 @@ public class FinalScreenActivity extends AppCompatActivity {
         linearLayout2 = (LinearLayout) findViewById(R.id.fs_LL2);
         linearLayout3 = (LinearLayout) findViewById(R.id.fs_LL3);
         linearLayout4 = (LinearLayout) findViewById(R.id.fs_LL4);
+        resetLayout();
 
         //set text views
         text1 = (TextView) findViewById(R.id.fs_player1);
@@ -55,46 +58,125 @@ public class FinalScreenActivity extends AppCompatActivity {
 
         numOfPlayers = getIntent().getIntExtra(FINAL_PLAYERS, 1);
 
-        generateView();
-        orderScores();
+        //get player1 info
+        player1_name = getIntent().getStringExtra(P1_NAME);
+        player1_score = getIntent().getIntExtra(P1_SCORE, 0);
 
+        scores[0] = player1_score;
+        player_order[0] = player1_name;
+        if (numOfPlayers > 1) {
+            multiplayerView();
+            orderScores();
+        }
+        else {
+            text1.setText(player1_name);
+            score1.setText(Integer.toString(player1_score));
+        }
         setListeners();
     }
 
-    public void generateView() {
+    public void multiplayerView() {
 
-        if (numOfPlayers > 1) {
-            switch (numOfPlayers) {
-                case 2:
-                    linearLayout2.setVisibility(View.VISIBLE);
-                    break;
-                case 3:
-                    linearLayout2.setVisibility(View.VISIBLE);
-                    linearLayout3.setVisibility(View.VISIBLE);
-                    break;
-                case 4:
-                    linearLayout2.setVisibility(View.VISIBLE);
-                    linearLayout3.setVisibility(View.VISIBLE);
-                    linearLayout4.setVisibility(View.VISIBLE);
-                    break;
-                default:
-                    break;
-            }
+        switch (numOfPlayers) {
+            case 2:
+                linearLayout2.setVisibility(View.VISIBLE);
+                player2_name = getIntent().getStringExtra(P2_NAME);
+                player2_score = getIntent().getIntExtra(P2_SCORE, 0);
+                scores[1] = player2_score;
+                player_order[1] = player2_name;
+                break;
+            case 3:
+                linearLayout2.setVisibility(View.VISIBLE);
+                linearLayout3.setVisibility(View.VISIBLE);
+                player2_name = getIntent().getStringExtra(P2_NAME);
+                player2_score = getIntent().getIntExtra(P2_SCORE, 0);
+                player3_name = getIntent().getStringExtra(P3_NAME);
+                player3_score = getIntent().getIntExtra(P3_SCORE, 0);
+                scores[1] = player2_score;
+                scores[2] = player3_score;
+                player_order[1] = player2_name;
+                player_order[2] = player3_name;
+                break;
+            case 4:
+                linearLayout2.setVisibility(View.VISIBLE);
+                linearLayout3.setVisibility(View.VISIBLE);
+                linearLayout4.setVisibility(View.VISIBLE);
+                player2_name = getIntent().getStringExtra(P2_NAME);
+                player2_score = getIntent().getIntExtra(P2_SCORE, 0);
+                player3_name = getIntent().getStringExtra(P3_NAME);
+                player3_score = getIntent().getIntExtra(P3_SCORE, 0);
+                player4_name = getIntent().getStringExtra(P4_NAME);
+                player4_score = getIntent().getIntExtra(P4_SCORE, 0);
+                scores[1] = player2_score;
+                scores[2] = player3_score;
+                scores[3] = player4_score;
+                player_order[1] = player2_name;
+                player_order[2] = player3_name;
+                player_order[3] = player4_name;
+                break;
+            default:
+                break;
         }
-
     }
 
     public void orderScores() {
-        if(numOfPlayers > 1) {
-            //TODO:Probably a bubblesort???
-        }
-        else {
-            text1.setText(getIntent().getStringExtra(P1_NAME));
-            score1.setText(getIntent().getStringExtra(P1_SCORE));
+        //Bubble sort
+        boolean swapped = true;
+        int j = 0;
+        int tmp_score;
+        String tmp_player;
+        while (swapped) {
+            swapped = false;
+            j++;
+            for (int i = 0; i <scores.length - j; i++) {
+                if (scores[i] < scores[i + 1]) {
+                    //swap score
+                    tmp_score = scores[i];
+                    scores[i] = scores[i + 1];
+                    scores[i + 1] = tmp_score;
+                    //swap player
+                    tmp_player = player_order[i];
+                    player_order[i] = player_order[i + 1];
+                    player_order[i+ 1] = tmp_player;
+
+                    swapped = true;
+                }
+            }
         }
 
+        setScores();
     }
 
+    public void setScores() {
+        switch (numOfPlayers) {
+            case 2:
+                text1.setText(player_order[0]);
+                score1.setText(Integer.toString(scores[0]));
+                text2.setText(player_order[1]);
+                score2.setText(Integer.toString(scores[1]));
+                break;
+            case 3:
+                text1.setText(player_order[0]);
+                score1.setText(Integer.toString(scores[0]));
+                text2.setText(player_order[1]);
+                score2.setText(Integer.toString(scores[1]));
+                text3.setText(player_order[2]);
+                score3.setText(Integer.toString(scores[2]));
+                break;
+            case 4:
+                text1.setText(player_order[0]);
+                score1.setText(Integer.toString(scores[0]));
+                text2.setText(player_order[1]);
+                score2.setText(Integer.toString(scores[1]));
+                text3.setText(player_order[2]);
+                score3.setText(Integer.toString(scores[2]));
+                text4.setText(player_order[3]);
+                score4.setText(Integer.toString(scores[3]));
+                break;
+            default:
+                break;
+        }
+    }
     public void setListeners() {
 
         play_again.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +197,7 @@ public class FinalScreenActivity extends AppCompatActivity {
 
                 new_game.putExtra("finalScreenSelection", "menu");
                 setResult(RESULT_OK,new_game);
+                resetLayout();
 
                 for (int i = 0; i < numOfPlayers; ++i)
 
@@ -122,5 +205,11 @@ public class FinalScreenActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void resetLayout() {
+        linearLayout2.setVisibility(View.INVISIBLE);
+        linearLayout3.setVisibility(View.INVISIBLE);
+        linearLayout4.setVisibility(View.INVISIBLE);
     }
 }

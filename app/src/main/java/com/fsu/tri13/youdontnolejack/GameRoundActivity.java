@@ -412,33 +412,26 @@ public class GameRoundActivity extends AppCompatActivity {
         //put number of players
         final_score.putExtra(FinalScreenActivity.FINAL_PLAYERS, numOfPlayers);
         //put scores and names
-        final_score.putExtra(FinalScreenActivity.P1_SCORE,
-                Integer.toString(player1.getCurrentScore()));
+        final_score.putExtra(FinalScreenActivity.P1_SCORE, player1.getCurrentScore());
         final_score.putExtra(FinalScreenActivity.P1_NAME, player1.getPlayerName());
         if (numOfPlayers > 1) {
             switch (numOfPlayers) {
                 case 2:
-                    final_score.putExtra(FinalScreenActivity.P2_SCORE,
-                            Integer.toString(player2.getCurrentScore()));
+                    final_score.putExtra(FinalScreenActivity.P2_SCORE, player2.getCurrentScore());
                     final_score.putExtra(FinalScreenActivity.P2_NAME, player2.getPlayerName());
                     break;
                 case 3:
-                    final_score.putExtra(FinalScreenActivity.P2_SCORE,
-                            Integer.toString(player2.getCurrentScore()));
+                    final_score.putExtra(FinalScreenActivity.P2_SCORE, player2.getCurrentScore());
                     final_score.putExtra(FinalScreenActivity.P2_NAME, player2.getPlayerName());
-                    final_score.putExtra(FinalScreenActivity.P3_SCORE,
-                            Integer.toString(player3.getCurrentScore()));
+                    final_score.putExtra(FinalScreenActivity.P3_SCORE, player3.getCurrentScore());
                     final_score.putExtra(FinalScreenActivity.P3_NAME, player3.getPlayerName());
                     break;
                 case 4:
-                    final_score.putExtra(FinalScreenActivity.P2_SCORE,
-                            Integer.toString(player2.getCurrentScore()));
+                    final_score.putExtra(FinalScreenActivity.P2_SCORE, player2.getCurrentScore());
                     final_score.putExtra(FinalScreenActivity.P2_NAME, player2.getPlayerName());
-                    final_score.putExtra(FinalScreenActivity.P3_SCORE,
-                            Integer.toString(player3.getCurrentScore()));
+                    final_score.putExtra(FinalScreenActivity.P3_SCORE, player3.getCurrentScore());
                     final_score.putExtra(FinalScreenActivity.P3_NAME, player3.getPlayerName());
-                    final_score.putExtra(FinalScreenActivity.P4_SCORE,
-                            Integer.toString(player4.getCurrentScore()));
+                    final_score.putExtra(FinalScreenActivity.P4_SCORE, player4.getCurrentScore());
                     final_score.putExtra(FinalScreenActivity.P4_NAME, player4.getPlayerName());
                     break;
                 default:

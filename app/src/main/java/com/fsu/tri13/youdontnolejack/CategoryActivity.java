@@ -39,6 +39,8 @@ public class CategoryActivity extends AppCompatActivity {
         student = (RadioButton) findViewById(R.id.rb_student);
         random = (RadioButton) findViewById(R.id.rb_random);
 
+        random.setEnabled(true);
+
         begin = (Button) findViewById(R.id.button_begin);
 
         intent = new Intent();
@@ -59,10 +61,8 @@ public class CategoryActivity extends AppCompatActivity {
         if (categoryList.contains(getResources().getString(R.string.category_student)))
             student.setEnabled(true);
 
-       //debuggin
-        for (int index = 0; index < categoryList.size(); index++) {
-            Log.d("category", categoryList.get(index));
-        }
+        if (categoryList.size() == 1)
+            random.setEnabled(false);
     }
 
     @Override
