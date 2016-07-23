@@ -1,12 +1,15 @@
 package com.fsu.tri13.youdontnolejack;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 
 public class FinalScreenActivity extends AppCompatActivity {
@@ -19,6 +22,8 @@ public class FinalScreenActivity extends AppCompatActivity {
     public static final String P3_NAME = "player3";
     public static final String P4_SCORE = "score4";
     public static final String P4_NAME = "player4";
+
+    MediaPlayer mediaPlayer;
 
     int numOfPlayers, player1_score, player2_score, player3_score, player4_score;
 
@@ -35,6 +40,9 @@ public class FinalScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_screen);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.end_theme);
+        mediaPlayer.start();
 
         play_again = (Button) findViewById(R.id.button_player_again);
         main_menu = (Button) findViewById(R.id.button_main_menu);
@@ -73,6 +81,47 @@ public class FinalScreenActivity extends AppCompatActivity {
             score1.setText(Integer.toString(player1_score));
         }
         setListeners();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mediaPlayer != null) {
+            try {
+                mediaPlayer.prepare();
+                mediaPlayer.seekTo(0);
+            }
+            catch (Throwable t) {
+                return;
+            }
+            mediaPlayer.start();
+        }
+
+        else {
+            mediaPlayer = MediaPlayer.create(this, R.raw.end_theme);
+            mediaPlayer.start();
+        }
+
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
     }
 
     public void multiplayerView() {

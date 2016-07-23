@@ -1,6 +1,7 @@
 package com.fsu.tri13.youdontnolejack;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,10 +12,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import java.io.IOException;
+
 public class TitleScreenActivity extends AppCompatActivity {
     //For the spinner adapter
     private static final String[] mp_choices = {"How Many?", "2 Players",
             "3 Players", "4 Players"};
+
+    MediaPlayer mediaPlayer;
 
     Button sp, mp, howTo;
     Spinner spin;
@@ -26,6 +31,9 @@ public class TitleScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title_screen);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.game_show_theme);
+        mediaPlayer.start();
 
         sp = (Button) findViewById(R.id.button_single_player);
         mp = (Button) findViewById(R.id.button_multi_player);
@@ -46,8 +54,42 @@ public class TitleScreenActivity extends AppCompatActivity {
 
     @Override
     public void onResume() {
-        spin.setVisibility(View.GONE);
         super.onResume();
+        spin.setVisibility(View.GONE);
+
+        if (mediaPlayer != null) {
+            try {
+                mediaPlayer.prepare();
+                mediaPlayer.seekTo(0);
+            }
+            catch (Throwable t) {
+                return;
+            }
+            mediaPlayer.start();
+        }
+        else {
+            mediaPlayer = MediaPlayer.create(this, R.raw.game_show_theme);
+            mediaPlayer.start();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
     }
 
     public void setListeners() {
